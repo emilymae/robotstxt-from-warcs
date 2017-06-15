@@ -18,3 +18,17 @@ We hope to extend this work to different collections in order to further underst
 
 
 
+## Technical
+
+### Prerequisites
+
+* A working spark + warcbase-installation (se the [warcbase GitHub page](https://github.com/lintool/warcbase))
+* Some WARC-files from a harvest where robots.txt has *not* been obeyed
+* bash and (Python|Node.js)
+
+### Rough how-to
+
+1. Apply the 3 `.scala`-scripts to a collection of WARC-files
+1. Use the bash-scripts `all_urls.sh`, `all_links.sh` and `inside_corpus_links.sh` on the outputs from the scala-scripts (see [SCRIPTS.md](SCRIPTS.md) for details)
+1. Run the output from the bash-scripts through either `nodejs/index.js` or `obey_all_robots.py` to get statistics and a list of links with robots.txt being applied
+1. Use the bash-scripts `domain_links.sh` and `robots_or_not.sh` to generate aggregates for use with gephi or a similar graph-visualization tool
