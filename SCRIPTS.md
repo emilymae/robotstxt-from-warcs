@@ -11,7 +11,7 @@ Generate a file with all urls.
 ```shell
 cd /mnt/TNA-Dataset/robots/urls-decc.gov.uk
 cat part-[0-9]* | cut -d, -f2,3 --output-delimiter $'\t' | tr -d '\r' | sed 's/)$//' | sort | uniq > urls-decc
-```shell
+```
 
 
 ## all_links.sh
@@ -24,7 +24,7 @@ Note: Comma is used as delimiter in the output from `extract-links.scala`, which
 ```shell
 cd /mnt/TNA-Dataset/robots/links-decc.gov.uk
 cat part-[0-9]* | cut -d, -f2,3 | tr -d ')' | tr ',' '\t' | grep http | sort | uniq > links-decc
-```shell
+```
 
 
 ## inside_corpus_links.sh
@@ -38,7 +38,7 @@ cd /mnt/TNA-Dataset/robots
 export LC_ALL=C ; cat urls-decc.gov.uk/urls-decc | cut -d$'\t' -f2 | sort | uniq > urls-unique-decc
 export LC_ALL ; cat links-decc.gov.uk/links-decc | awk -v OFS="\t" -F"\t" '{print $2,$1}' | sort > links_reversed-decc
 join -1 1 -2 1 urls-unique-decc links_reversed-decc | awk -v OFS="\t" -F" " '{print $2,$1}' | sort > links-inside-corpus-decc
-```shell
+```
 
 
 ## domain_links.sh
@@ -50,7 +50,7 @@ Aggregate domain-to-domain links from url-to-url-links. Used for visualization a
 ```shell
 cd /mnt/TNA-Dataset/robots/links-decc.gov.uk
 cat part-[0-9]* | sed 's/[^,]*,\(.*\),\(htt.*\)/\1 \2/' | grep "http.*http" | sed 's/https\?:\/\/\([a-z0-9.-]*\)[^ ]*/\1/g' | sort | uniq -c | sed 's/ \+/ /g' | sed 's/\([^ ]\+\) \([^ ]\+\) \([^ ]\+\)/\2\t\3\t\1/' | sed 's/^ //' > domain_to_domain-decc
-```shell
+```
 
 
 ## robots_or_not.sh
@@ -64,4 +64,4 @@ cd /mnt/TNA-Dataset/robots
 cat robots-decc.gov.uk/part-[0-9]* | grep SNIP | cut -d, -f2 | sort | uniq > robots-decc.gov.uk/domains-with-robots-decc
 cat urls-decc.gov.uk/urls-decc | cut -d$'\t' -f1 | sort | uniq > urls-decc.gov.uk/domains-decc
 comm --output-delimiter : urls-decc.gov.uk/domains-decc robots-decc.gov.uk/domains-with-robots-decc | sed -e 's/^\([^:].*\)/\1\tfalse/' -e 's/::\(.*\)/\1\ttrue/' > domains-robots-flag-decc
-```shell
+```
